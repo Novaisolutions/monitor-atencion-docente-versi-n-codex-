@@ -1,0 +1,78 @@
+# ========================================
+# NETLIFY REDIRECTS - CENYCA
+# Sistema de Monitoreo de Atención Docente
+# Versión Codex - Configuración de Rutas
+# ========================================
+
+# === REDIRECCIÓN PRINCIPAL PARA SPA ===
+# Todas las rutas deben servir index.html para que React Router funcione
+/*    /index.html   200
+
+# === API PROXY RULES ===
+# Redirigir llamadas a API externa a través de functions
+/api/kommo/*  /.netlify/functions/kommo-proxy  200
+
+# === REDIRECCIONES DE COMPATIBILIDAD ===
+# Rutas antiguas redirigidas a nuevas rutas
+/marketing/*  /prospectos/:splat  301
+/dental/*     /docentesfont-weight-bold>   301
+/admin/*      /settings/:splat    301
+
+# === REDIRECCIONES DE SEGURIDAD ===
+# Bloquear acceso a archivos sensibles
+/.env         /404.html          404
+/config/*     /404.html          404
+/secrets/*    /404.html          404
+
+# === REDIRECCIONES DE RENDIMIENTO ===
+# Cache para assets estáticos
+/static/*     /static/:splat     200  Cache-Control: public,max-age=31536000,immutable
+/icons/*      /icons/:splat      200  Cache-Control: public,max-age=31536000
+/fonts/*      /fonts/:splat      200  Cache-Control: public,max-age=31536000
+
+# === REDIRECCIONES ESPECÍFICAS CENYCA ===
+# Rutas de acceso rápido para docentes
+/crm          /prospectos        301
+/docentes     /prospectos        301
+/casos        /casos_docentes    301
+/seguimiento  /casos_docentes    301
+
+# === REDIRECCIONES DE MANTENIMIENTO ===
+# En caso de mantenimiento programado
+# /maintenance  /mantenimiento.html  200
+
+# === HEADERS DE SEGURIDAD ===
+/api/kommo/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  
+# === CORS PARA DESARROLLO ===
+/api/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+  Access-Control-Allow-Headers: Content-Type, Authorization
+
+# ========================================
+# NOTAS DE CONFIGURACIÓN CODEX:
+# ========================================
+#
+# ✅ CONFIGURADO:
+# - SPA routing para React
+# - Proxy API para Kommo CRM
+# - Redirecciones de compatibilidad
+# - Headers de seguridad
+# - Cache para assets estáticos
+# - Rutas de acceso rápido
+#
+# 🎯 ESPECÍFICO CENYCA:
+# - Rutas educativas personalizadas
+# - Redirecciones intuitivas para docentes
+# - Configuración de API proxy segura
+#
+# 🔒 SEGURIDAD:
+# - Bloqueo de archivos sensibles
+# - Headers de seguridad aplicados
+# - CORS configurado apropiadamente
+# ========================================
