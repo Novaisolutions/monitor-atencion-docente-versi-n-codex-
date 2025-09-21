@@ -40,7 +40,8 @@ export function formatNumber(num: number): string {
  * Útil para métricas educativas
  */
 export function formatPercentage(value: number, decimals: number = 1): string {
-  return `${value.toFixed(decimals)}%`;
+  const normalized = value > 1 ? value : value * 100;
+  return `${normalized.toFixed(decimals)}%`;
 }
 
 /**
@@ -58,7 +59,7 @@ export function generateId(prefix: string = 'id'): string {
 export function truncateText(text: string, maxLength: number = 100): string {
   if (!text) return '';
   if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength).trim() + '...';
+  return `${text.slice(0, maxLength).trim()}...`;
 }
 
 /**
@@ -117,12 +118,13 @@ export function timeAgo(date: Date | string): string {
  */
 export function formatBytes(bytes: number, decimals: number = 2): string {
   if (bytes === 0) return '0 Bytes';
-  
+
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
+
+  const parsed = parseFloat((bytes / Math.pow(k, i)).toFixed(decimals));
+  return `${parsed} ${sizes[i]}`;
 }
 
 /**
@@ -162,12 +164,12 @@ export function getAvatarColor(text: string): string {
  * Debounce para optimizar búsquedas y filtros
  * Útil para inputs de búsqueda en tiempo real
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout;
-  
+  let timeout: ReturnType<typeof setTimeout>;
+
   return (...args: Parameters<T>) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), wait);
@@ -178,17 +180,19 @@ export function debounce<T extends (...args: any[]) => any>(
  * Throttle para limitar frecuencia de ejecución
  * Útil para eventos de scroll o resize
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
   let inThrottle: boolean;
-  
+
   return (...args: Parameters<T>) => {
     if (!inThrottle) {
       func(...args);
       inThrottle = true;
-      setTimeout(() => inThrottle = false, limit);
+      setTimeout(() => {
+        inThrottle = false;
+      }, limit);
     }
   };
 }
