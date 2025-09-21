@@ -63,11 +63,9 @@ export default tseslint.config(
         }
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/prefer-const': 'error',
       '@typescript-eslint/no-var-requires': 'error',
       
       // === REGLAS DE CALIDAD DE CÓDIGO ===
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-debugger': 'warn',
       'no-alert': 'warn',
       'no-eval': 'error',
@@ -86,7 +84,9 @@ export default tseslint.config(
       
       // === REGLAS ESPECÍFICAS PARA CENYCA ===
       // Permitir console.log en desarrollo
-      'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+      'no-console': process.env.NODE_ENV === 'production'
+        ? ['error', { allow: ['warn', 'error'] }]
+        : ['warn', { allow: ['warn', 'error', 'info'] }],
       
       // Preferir nomenclatura específica educativa
       'id-length': ['warn', { min: 2, exceptions: ['i', 'j', 'k', 'x', 'y'] }],
@@ -97,24 +97,26 @@ export default tseslint.config(
         ignoreDestructuring: true,
         allow: ['^UNSAFE_', '^VITE_', 'student_id', 'teacher_id'] 
       }],
+    }
+  },
+  {
+    files: ['*.config.{js,ts}', 'vite.config.ts'],
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/no-var-requires': 'off',
     },
-    
-    // Configuración específica para archivos de configuración
-    overrides: [
-      {
-        files: ['*.config.{js,ts}', 'vite.config.ts'],
-        rules: {
-          'no-console': 'off',
-          '@typescript-eslint/no-var-requires': 'off',
-        },
-      },
-      {
-        files: ['src/types/**/*.ts'],
-        rules: {
-          '@typescript-eslint/no-explicit-any': 'off',
-        },
-      },
-    ],
+  },
+  {
+    files: ['src/types/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+  {
+    files: ['src/vite-env.d.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
   }
 )
 

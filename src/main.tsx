@@ -1,1 +1,16 @@
-import { StrictMode } from 'react';\nimport { createRoot } from 'react-dom/client';\nimport App from './App.tsx';\nimport './index.css';\n\n// ========================================\n// MONITOR DE ATENCIÓN DOCENTE - CENYCA\n// Punto de entrada principal - Versión Codex\n// ========================================\n\n// Validar que el elemento root exista\nconst rootElement = document.getElementById('root');\nif (!rootElement) {\n  throw new Error('❌ ERROR CRÍTICO: Elemento root no encontrado en el DOM');\n}\n\n// Log de inicialización para debugging\nconsole.log('🎓 Iniciando Monitor de Atención Docente - CENYCA (Versión Codex)');\nconsole.log('🚀 Configuración:', {\n  entorno: import.meta.env.MODE,\n  version: 'Codex 1.0.0',\n  timestamp: new Date().toISOString()\n});\n\n// Crear root de React con configuración optimizada\nconst root = createRoot(rootElement);\n\n// Renderizar aplicación con StrictMode para debugging\nroot.render(\n  <StrictMode>\n    <App />\n  </StrictMode>\n);\n\n// ========================================\n// NOTAS DE VERSIÓN CODEX:\n// ========================================\n// \n// ✨ OPTIMIZACIONES IMPLEMENTADAS:\n// - Validación crítica del DOM\n// - Logging estructurado para debugging\n// - Configuración específica para entorno educativo\n// - StrictMode habilitado para desarrollo\n//\n// 🎯 ESPECIALIZACIÓN CENYCA:\n// - Branding educativo integrado\n// - Configuración optimizada para gestión docente\n// - Logging específico para monitoreo\n//\n// 🔧 CONFIGURACIÓN TÉCNICA:\n// - React 18.3.1 con createRoot\n// - TypeScript estricto habilitado\n// - CSS modular con Tailwind\n// ========================================"
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './index.css';
+
+const rootElement = document.getElementById('root');
+
+if (!rootElement) {
+  throw new Error('Elemento root no encontrado en el DOM');
+}
+
+createRoot(rootElement).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);

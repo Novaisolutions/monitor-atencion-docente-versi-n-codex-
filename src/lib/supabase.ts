@@ -25,7 +25,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     params: {
       eventsPerSecond: 10, // Limitado para rendimiento
       heartbeatIntervalMs: 30000, // 30 segundos
-      reconnectAfterMs: function (tries: number) {
+      reconnectAfterMs(tries: number) {
         return Math.min(tries * 1000, 10000); // Reconexión exponencial máx 10s
       },
     },
@@ -54,7 +54,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 });
 
 // Log de inicialización para debugging
-console.log('🔗 Supabase inicializado correctamente:', {
+console.info('🔗 Supabase inicializado correctamente:', {
   url: supabaseUrl,
   proyecto: supabaseUrl.split('//')[1]?.split('.')[0] || 'desconocido',
   timestamp: new Date().toISOString(),
@@ -64,16 +64,14 @@ console.log('🔗 Supabase inicializado correctamente:', {
 // Función de utilidad para verificar conexión
 export const testSupabaseConnection = async () => {
   try {
-    const { data, error } = await supabase
-      .from('CRM_Docentes')
-      .select('count', { count: 'exact', head: true });
+    const { error } = await supabase.from('CRM_Docentes').select('count', { count: 'exact', head: true });
     
     if (error) {
       console.error('❌ Error de conexión Supabase:', error.message);
       return false;
     }
     
-    console.log('✅ Conexión Supabase verificada correctamente');
+    console.info('✅ Conexión Supabase verificada correctamente');
     return true;
   } catch (error) {
     console.error('❌ Error crítico de Supabase:', error);
